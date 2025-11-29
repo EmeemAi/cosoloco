@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>COSOLOCO</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    
+    <!-- Babel (para entender React en el navegador sin compilación previa) -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Import Map para cargar React desde CDN -->
+    <script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@18.2.0",
+    "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0",
+    "vite": "https://aistudiocdn.com/vite@^7.2.4",
+    "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.1.1"
+  }
+}
+</script>
+
+    <style>
+      body {
+        background-color: #000000;
+        color: #ffffff;
+        font-family: 'Inter', sans-serif;
+        margin: 0;
+        overflow-x: hidden;
+      }
+      h1, h2, h3, .brand-font {
+        font-family: 'Oswald', sans-serif;
+      }
+      @keyframes fade-in {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+      }
+      .animate-fade-in {
+          animation: fade-in 1.2s ease-out forwards;
+      }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel" data-type="module">
+        import React from 'react';
+        import ReactDOM from 'react-dom/client';
+
+        // --- 1. COMPONENTES DE ICONOS ---
+        const SpotifyIcon = () => (
+          <svg viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+            <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z" />
+          </svg>
+        );
+
+        const YoutubeIcon = () => (
+          <svg viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.498-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+          </svg>
+        );
+
+        const TikTokIcon = () => (
+          <svg viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+            <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.65-1.58-1.11v1.93c.04 1.95.07 3.9-.17 5.85-.37 2.99-2.3 5.43-5.11 6.55-2.81 1.12-6.18.84-8.75-1.18-2.58-2.03-3.66-5.54-2.48-8.55 1.18-3.01 4.31-5.02 7.54-4.83.24 0 .48.01.72.04v4.22c-.63-.09-1.28-.06-1.89.17-1.48.56-2.39 2.08-2.22 3.66.17 1.58 1.48 2.83 3.07 2.92 1.59.09 3.02-1.02 3.32-2.59.25-1.32.22-2.67.22-4.01V.02z" />
+          </svg>
+        );
+
+        // --- 2. COMPONENTE LOGO ---
+        const Logo = ({ className = "w-64 h-64" }) => {
+          return (
+            <svg 
+              viewBox="0 0 600 600" 
+              className={className} 
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <title>Cosoloco Logo</title>
+              <circle 
+                cx="300" 
+                cy="300" 
+                r="240" 
+                fill="none" 
+                stroke="white" 
+                strokeWidth="15" 
+              />
+              <text 
+                x="50%" 
+                y="50%" 
+                dominantBaseline="middle" 
+                textAnchor="middle" 
+                fill="white" 
+                fontFamily="'Oswald', sans-serif" 
+                fontWeight="bold" 
+                fontSize="140"
+                letterSpacing="-5"
+                className="select-none"
+                style={{ transform: 'scaleY(1.3) translateY(12px)', transformOrigin: 'center' }}
+              >
+                COSOLOCO
+              </text>
+            </svg>
+          );
+        };
+
+        // --- 3. COMPONENTE BOTÓN SOCIAL ---
+        const SocialLink = ({ href, icon, label, subLabel }) => {
+          return (
+            <a 
+              href={href} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="group relative w-full max-w-md overflow-hidden rounded-xl bg-neutral-900 border border-neutral-800 p-4 transition-all duration-300 hover:bg-white hover:border-white hover:shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:-translate-y-1"
+            >
+              <div className="flex items-center gap-4">
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-black text-white transition-colors group-hover:bg-black group-hover:text-white border border-neutral-700 group-hover:border-black">
+                  {icon}
+                </div>
+                
+                <div className="flex flex-col text-left">
+                  <span className="font-bold text-lg text-white transition-colors group-hover:text-black brand-font tracking-wide">
+                    {label}
+                  </span>
+                  {subLabel && (
+                    <span className="text-xs text-neutral-400 transition-colors group-hover:text-neutral-600">
+                      {subLabel}
+                    </span>
+                  )}
+                </div>
+
+                <div className="ml-auto opacity-0 -translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="black" className="w-6 h-6">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                  </svg>
+                </div>
+              </div>
+            </a>
+          );
+        };
+
+        // --- 4. APP PRINCIPAL ---
+        const App = () => {
+          return (
+            <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center p-4 relative overflow-hidden">
+              
+              {/* Fondos tipo "spotlight" */}
+              <div className="fixed top-[-20%] left-[-10%] w-[50%] h-[50%] bg-neutral-900 rounded-full blur-[120px] opacity-20 pointer-events-none"></div>
+              <div className="fixed bottom-[-20%] right-[-10%] w-[50%] h-[50%] bg-neutral-800 rounded-full blur-[120px] opacity-20 pointer-events-none"></div>
+
+              <main className="z-10 w-full max-w-md flex flex-col items-center gap-8 animate-fade-in">
+                
+                {/* Logo */}
+                <div className="mb-4 transform hover:scale-105 transition-transform duration-700">
+                  <Logo className="w-48 h-48 sm:w-64 sm:h-64 drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]" />
+                </div>
+
+                {/* Enlaces */}
+                <div className="w-full flex flex-col gap-4">
+                  <SocialLink 
+                    href="https://open.spotify.com/intl-es/artist/5JF8KaskCkH6AzT2Er9YVW" 
+                    icon={<SpotifyIcon />} 
+                    label="SPOTIFY" 
+                    subLabel="Escucha nuestros últimos sencillos"
+                  />
+                  <SocialLink 
+                    href="https://www.youtube.com/@COSOLOCO" 
+                    icon={<YoutubeIcon />} 
+                    label="YOUTUBE" 
+                    subLabel="Videos oficiales"
+                  />
+                  <SocialLink 
+                    href="https://www.tiktok.com/@cosolocook" 
+                    icon={<TikTokIcon />} 
+                    label="TIKTOK" 
+                    subLabel="Clips"
+                  />
+                </div>
+
+                {/* Footer */}
+                <footer className="mt-8 flex flex-col items-center text-center">
+                  <div className="text-neutral-500 text-sm font-light tracking-widest uppercase mb-4">
+                    © {new Date().getFullYear()} Cosoloco
+                  </div>
+                  <div className="text-neutral-600 text-xs font-light flex flex-col items-center gap-1">
+                    <span>Contacto: Darío</span>
+                    <a href="mailto:dario.delreal@gmail.com" className="hover:text-neutral-400 transition-colors">
+                      dario.delreal@gmail.com
+                    </a>
+                  </div>
+                </footer>
+
+              </main>
+            </div>
+          );
+        }
+
+        // --- RENDERIZADO ---
+        const rootElement = document.getElementById('root');
+        const root = ReactDOM.createRoot(rootElement);
+        root.render(<App />);
+    </script>
+</body>
+</html>
