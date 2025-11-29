@@ -14,21 +14,6 @@
     <!-- Babel (para entender React en el navegador sin compilación previa) -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-    <!-- Import Map para cargar React desde CDN -->
-    <script type="importmap">
-{
-  "imports": {
-    "react": "https://esm.sh/react@18.2.0",
-    "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
-    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
-    "react/": "https://aistudiocdn.com/react@^19.2.0/",
-    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0",
-    "vite": "https://aistudiocdn.com/vite@^7.2.4",
-    "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.1.1"
-  }
-}
-</script>
-
     <style>
       body {
         background-color: #000000;
@@ -48,6 +33,18 @@
           animation: fade-in 1.2s ease-out forwards;
       }
     </style>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0",
+    "vite": "https://aistudiocdn.com/vite@^7.2.4",
+    "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.1.1"
+  }
+}
+</script>
 </head>
 <body>
     <div id="root"></div>
@@ -118,7 +115,7 @@
               href={href} 
               target="_blank" 
               rel="noopener noreferrer"
-              className="group relative w-full max-w-md overflow-hidden rounded-xl bg-neutral-900 border border-neutral-800 p-4 transition-all duration-300 hover:bg-white hover:border-white hover:shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:-translate-y-1"
+              className="group relative w-full max-w-md overflow-hidden rounded-xl bg-neutral-900/80 backdrop-blur-sm border border-neutral-800 p-4 transition-all duration-300 hover:bg-white hover:border-white hover:shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:-translate-y-1"
             >
               <div className="flex items-center gap-4">
                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-black text-white transition-colors group-hover:bg-black group-hover:text-white border border-neutral-700 group-hover:border-black">
@@ -151,15 +148,26 @@
           return (
             <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center p-4 relative overflow-hidden">
               
-              {/* Fondos tipo "spotlight" */}
-              <div className="fixed top-[-20%] left-[-10%] w-[50%] h-[50%] bg-neutral-900 rounded-full blur-[120px] opacity-20 pointer-events-none"></div>
-              <div className="fixed bottom-[-20%] right-[-10%] w-[50%] h-[50%] bg-neutral-800 rounded-full blur-[120px] opacity-20 pointer-events-none"></div>
+              {/* IMAGEN DE FONDO (PORTADA) */}
+              <div 
+                className="fixed inset-0 z-0 pointer-events-none"
+                style={{
+                  backgroundImage: "url('portada.jpg')",
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                  opacity: 0.6 // Reduce la opacidad para que el fondo negro se mezcle y el texto se lea bien
+                }}
+              ></div>
+
+              {/* Fondos tipo "spotlight" para atmósfera extra sobre la imagen */}
+              <div className="fixed top-[-20%] left-[-10%] w-[50%] h-[50%] bg-neutral-900 rounded-full blur-[120px] opacity-20 pointer-events-none z-0"></div>
+              <div className="fixed bottom-[-20%] right-[-10%] w-[50%] h-[50%] bg-neutral-800 rounded-full blur-[120px] opacity-20 pointer-events-none z-0"></div>
 
               <main className="z-10 w-full max-w-md flex flex-col items-center gap-8 animate-fade-in">
                 
                 {/* Logo */}
                 <div className="mb-4 transform hover:scale-105 transition-transform duration-700">
-                  <Logo className="w-48 h-48 sm:w-64 sm:h-64 drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]" />
+                  <Logo className="w-48 h-48 sm:w-64 sm:h-64 drop-shadow-[0_0_25px_rgba(0,0,0,0.8)]" />
                 </div>
 
                 {/* Enlaces */}
@@ -186,12 +194,12 @@
 
                 {/* Footer */}
                 <footer className="mt-8 flex flex-col items-center text-center">
-                  <div className="text-neutral-500 text-sm font-light tracking-widest uppercase mb-4">
+                  <div className="text-neutral-400 text-sm font-light tracking-widest uppercase mb-4 drop-shadow-md">
                     © {new Date().getFullYear()} Cosoloco
                   </div>
-                  <div className="text-neutral-600 text-xs font-light flex flex-col items-center gap-1">
+                  <div className="text-neutral-400 text-xs font-light flex flex-col items-center gap-1 drop-shadow-md">
                     <span>Contacto: Darío</span>
-                    <a href="mailto:dario.delreal@gmail.com" className="hover:text-neutral-400 transition-colors">
+                    <a href="mailto:dario.delreal@gmail.com" className="hover:text-white transition-colors">
                       dario.delreal@gmail.com
                     </a>
                   </div>
